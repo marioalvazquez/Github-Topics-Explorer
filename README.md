@@ -1,46 +1,48 @@
-# Getting Started with Create React App
+# Github-topic-explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [Getting started](#getting-started)
+- [About](#about-this-app)
+- [Dev Notes](#dev-notes)
+- [Future Improvements](#future-improvements)
+- [Running Tests](#running-tests)
 
-## Available Scripts
+## Getting started
+```sh
+# 1. Install all the dependencies
+npm i
 
-In the project directory, you can run:
+# 2. Add your PERSONA_ACCESS_TOKEN TO an .env file
+REACT_APP_GITHUB_PAT=<token>
 
-### `npm start`
+# 3. In one terminal window, start front-end app locally
+npm start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## About this app
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+This repo will allow you to consume GraphQL Github API, so you can query topics
 
-### `npm test`
+## Dev Notes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Libraries utilized: 
+Apollo Client - GraphQL client that allow focusing development time on business logic instead of the logic behind GraphQL
+Emotion - Package used for easily gaining access to styled components even thought design was not a priority for this project
 
-### `npm run build`
+## Feature Improvements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Code Structuring:
+I would abuse the usage of custom hooks so functional components preserve more readability only related to UI logic.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Refactoring
+It is a great idea to include ContextAPI for mannaging global state instead of choosing prop-drilling all over (it was decided this way for time purposes)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#Additional Features
+It needs a lot of improvements UI related, nesting related topics within the same page might not be the greatest idea, so routing should be helpful for this project nature
 
-### `npm run eject`
+I would include fetching related topics on demand, that means go to GrapQL API every time we try to show related topics instead of having them altogether on the first run. This is not the greatest approach performance-wise
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Running Tests
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The following will run tests
+```sh
+# This will generate a text report to the console
+npm test
