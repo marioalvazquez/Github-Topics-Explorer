@@ -11,12 +11,12 @@
 # 1. Install all the dependencies
 npm i
 
-# 2. Add your PERSONA_ACCESS_TOKEN TO an .env file
+# 2. Add your PERSONAL_ACCESS_TOKEN TO an .env file
 REACT_APP_GITHUB_PAT=<token>
 
 # 3. In one terminal window, start front-end app locally
 npm start
-
+```
 ## About this app
 
 This repo will allow you to consume GraphQL Github API, so you can query topics
@@ -27,7 +27,7 @@ Libraries utilized:
 Apollo Client - GraphQL client that allow focusing development time on business logic instead of the logic behind GraphQL
 Emotion - Package used for easily gaining access to styled components even thought design was not a priority for this project
 
-## Feature Improvements
+## Future Improvements
 
 # Code Structuring:
 I would abuse the usage of custom hooks so functional components preserve more readability only related to UI logic.
