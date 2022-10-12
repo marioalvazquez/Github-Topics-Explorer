@@ -35,20 +35,19 @@ const TopicComponent = ({topic, filter}: TopicProps) => {
     const [relatedTopicName, setRelatedTopicName] = useState('');
     const [childTopics, setChildTopics] = useState(relatedTopics);
     const { data, refetch } = useQuery(GET_TOPICS, { variables: {name: ''}});
-    const queryTopic = useCallback((topicName: string) => {
+    const queryTopic = useCallback((topicName: string) => {        
         refetch({
         name: topicName
         });
     }, [refetch]);
 
-    const toggleRelated = (name: string) => {
+    const toggleRelated = (name: string) => {        
         setRelatedTopicName(name);
         setShowRelated(!showRelated);
     }
     
     useEffect(() => {
-        
-        if (!childTopics && relatedTopicName !== '') {
+        if (!childTopics?.length && relatedTopicName !== '') {
             queryTopic(relatedTopicName)
         }
     }, [childTopics, relatedTopicName, queryTopic]);
