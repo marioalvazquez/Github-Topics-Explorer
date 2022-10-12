@@ -18,7 +18,7 @@ const useTopicFilters = () => {
   }
 }
 
-const GET_TOPICS = gql`
+export const GET_TOPICS = gql`
 query ($name: String!) {
   topic(name:$name) {
     name

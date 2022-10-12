@@ -1,11 +1,13 @@
+import { useQuery } from "@apollo/client";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { GET_TOPICS } from "../App";
 import { Topic } from "../shared/types";
 import TopicList from "./TopicList";
 
 const TopicContainer = styled('div')`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     border: 1px solid #34a660;
     border-radius: 5px;
@@ -20,6 +22,8 @@ const TopicContainer = styled('div')`
     }
 `;
 
+const TopicHeader = styled('div')``;
+
 interface TopicProps {
     topic: Topic;
     filter: string;
@@ -27,25 +31,46 @@ interface TopicProps {
 
 const TopicComponent = ({topic, filter}: TopicProps) => {
     const {name, relatedTopics, stargazerCount} = topic;
-    console.log({name, relatedTopics, stargazerCount});
-
     const [showRelated, setShowRelated] = useState(false);
+    const [relatedTopicName, setRelatedTopicName] = useState('');
+    const [childTopics, setChildTopics] = useState(relatedTopics);
+    const { data, refetch } = useQuery(GET_TOPICS, { variables: {name: ''}});
+    const queryTopic = useCallback((topicName: string) => {
+        refetch({
+        name: topicName
+        });
+    }, [refetch]);
 
-    const toggleRelated = () => {
-        console.log({showRelated, relatedTopics});
-        
-        if (showRelated || !relatedTopics) setShowRelated(false);
-        else if (!showRelated && relatedTopics) setShowRelated(true);
+    const toggleRelated = (name: string) => {
+        setRelatedTopicName(name);
+        setShowRelated(!showRelated);
     }
+    
+    useEffect(() => {
+        
+        if (!childTopics && relatedTopicName !== '') {
+            queryTopic(relatedTopicName)
+        }
+    }, [childTopics, relatedTopicName, queryTopic]);
+
+    useEffect(() => {
+        if (relatedTopics) return;
+        const { topic } = data;
+        if (!topic) return;
+        const { relatedTopics: newChildTopics } = topic;
+        if (newChildTopics) setChildTopics(newChildTopics);
+    }, [childTopics, relatedTopics, data])
 
     return (
         <TopicContainer>
-            <h3>Topic Name: {name} 
-                <span onClick={() => toggleRelated()}>{showRelated ? 'Hide' : 'Show'} related Topics</span>
-            </h3>
-            <p>Start counts: {stargazerCount}</p>
+            <TopicHeader>
+                <h3>Topic Name: {name} 
+                    <span onClick={() => toggleRelated(name)}>{showRelated ? 'Hide' : 'Show'} related Topics</span>
+                </h3>
+                <p>Start counts: {stargazerCount}</p>
+            </TopicHeader>
             {
-                showRelated && <TopicList topics={relatedTopics} filter={filter} />
+                showRelated && <TopicList topics={childTopics} filter={filter} />
             }
         </TopicContainer>
     )
